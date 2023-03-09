@@ -1,0 +1,40 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "format": "prettier --write \"{app,component,lib,pages,styles}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\"",
+    "format:check": "prettier --check \"{app,component,lib,pages,styles}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\" ",
+    "lint": "eslint --fix '{app,components,pages,utils}/**/*.{js,jsx,ts,tsx}'",
+    "lint:check": "eslint '{app,components,pages,utils}/**/*.{js,jsx,ts,tsx}'",
+    "start": "next start",
+    "version": "next --version"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "next": "latest",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.11.3",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "autoprefixer": "^10.4.12",
+    "eslint": "^8.35.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "^13.2.3",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-tailwindcss": "^3.10.1",
+    "postcss": "^8.4.18",
+    "prettier": "^2.8.4",
+    "prettier-plugin-tailwindcss": "^0.2.4",
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.9.4"
+  }
+}
