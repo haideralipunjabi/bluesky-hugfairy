@@ -16,3 +16,7 @@
   border-radius: 6px;
   @apply bg-accent-primary;
 }
+
+a {
+  @apply cursor-pointer text-link;
+}

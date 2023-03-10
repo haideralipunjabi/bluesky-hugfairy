@@ -1,0 +1,40 @@
+{
+    "anonymous": [
+        {
+            "value": "Hug to $reciever",
+            "enitities": [
+                {
+                    "type": "mention",
+                    "index": {
+                        "start": 7,
+                        "end": -1
+                    },
+                    "value": ""
+                }
+            ]
+        }
+    ],
+    "normal": [
+        {
+            "value": "Hug to $reciever from $sender",
+            "enitities": [
+                {
+                    "type": "mention",
+                    "index": {
+                        "start": 7,
+                        "end": -1
+                    },
+                    "value": ""
+                },
+                {
+                    "type": "mention",
+                    "index": {
+                        "start": 13,
+                        "end": -1
+                    },
+                    "value": ""
+                }
+            ]
+        }
+    ]
+}

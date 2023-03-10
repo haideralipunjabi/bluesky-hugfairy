@@ -19,6 +19,7 @@ module.exports = {
           primary: "#1d4ed8",
           secondary: "#1e3a8a",
         },
+        link: "#03a9f4"
       },
     },
   },

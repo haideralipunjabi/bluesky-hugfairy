@@ -4,10 +4,10 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "format": "prettier --write \"{app,component,lib,pages,styles}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\"",
-    "format:check": "prettier --check \"{app,component,lib,pages,styles}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\" ",
-    "lint": "eslint --fix '{app,components,pages,utils}/**/*.{js,jsx,ts,tsx}'",
-    "lint:check": "eslint '{app,components,pages,utils}/**/*.{js,jsx,ts,tsx}'",
+    "format": "prettier --write \"{app,components,lib,pages,styles,utils}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\"",
+    "format:check": "prettier --check \"{app,components,lib,pages,styles,utils}/**/*.{js,jsx,ts,tsx,css,scss,json,yaml,md}\" ",
+    "lint": "eslint --fix '{app,components,pages,utils,lib}/**/*.{js,jsx,ts,tsx}'",
+    "lint:check": "eslint '{app,components,pages,utils,lib}/**/*.{js,jsx,ts,tsx}'",
     "start": "next start",
     "version": "next --version"
   },
@@ -18,6 +18,8 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/cookie": "^0.5.1",
+    "@types/cookies": "^0.7.7",
     "@types/node": "18.11.3",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
