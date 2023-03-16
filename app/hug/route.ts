@@ -82,6 +82,16 @@ export async function POST(request: Request) {
   const [sHandle, sDid] = anonymous
     ? [undefined, undefined]
     : [senderHandle, senderDid];
+  if(recieverDid === sDid) {
+    return NextResponse.json(
+      {
+        error: "Can't send a hug to yourself",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
   const { text, entities } = generatePost(
     recieverHandle,
     recieverDid,
