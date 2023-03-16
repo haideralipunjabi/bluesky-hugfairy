@@ -82,7 +82,7 @@ export async function POST(request: Request) {
   const [sHandle, sDid] = anonymous
     ? [undefined, undefined]
     : [senderHandle, senderDid];
-  if(recieverDid === sDid) {
+  if(recieverDid === senderDid) {
     return NextResponse.json(
       {
         error: "Can't send a hug to yourself",
