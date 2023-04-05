@@ -1,4 +1,4 @@
-const URL = "https://bsky.social/xrpc/com.atproto.session.create";
+const URL = "https://bsky.social/xrpc/com.atproto.server.createSession";
 
 export default function Login(
   identifier: string | undefined,

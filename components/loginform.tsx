@@ -4,7 +4,7 @@ import { setCookies } from "../utils/cookies";
 import { ErrorAlert } from "./alert";
 
 export default function LoginForm() {
-  const AUTH_URL = "https://bsky.social/xrpc/com.atproto.session.create";
+  const AUTH_URL = "https://bsky.social/xrpc/com.atproto.server.createSession";
   const [error, setError] = useState<ErrorResponse>();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
