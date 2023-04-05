@@ -10,11 +10,19 @@ export default function Footer() {
         Haider Ali Punjabi
       </a>{" "}
       (
-      <a href="https://bsky.app/profile/haider.bsky.social" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://bsky.app/profile/haider.bsky.social"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         haider.bsky.social
       </a>
       ) | Source code on{" "}
-      <a href="https://github.com/haideralipunjabi/bluesky-hugfairy" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://github.com/haideralipunjabi/bluesky-hugfairy"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         Github
       </a>
     </footer>

@@ -1,4 +1,3 @@
-
 const URL = "https://bsky.social/xrpc/com.atproto.repo.createRecord";
 
 export default function Post(
@@ -7,11 +6,6 @@ export default function Post(
   access_token: string,
   did: string
 ) {
-  console.log("Hugging");
-  console.log(text);
-  console.log(entities);
-  console.log(did);
-  console.log(access_token)
   return fetch(URL, {
     method: "POST",
     headers: {
@@ -28,7 +22,5 @@ export default function Post(
         entities: entities,
       },
     }),
-  }).catch((error)=>{
-      console.log(error)
-  })
+  });
 }
