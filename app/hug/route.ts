@@ -1,73 +1,56 @@
 import { NextResponse } from "next/server";
-import getProfile from "../../lib/getProfile";
-import Login from "../../lib/login";
 import templates from "../../data/templates.json";
-import Post from "../../lib/post";
+import { AtpSessionData, AtpSessionEvent, BskyAgent, RichText } from "@atproto/api";
 
-function generateAnonPost(recieverHandle: string, recieverDid: string) {
+function generateAnonPost(recieverHandle: string) {
   const template =
     templates["anonymous"][
       Math.floor(Math.random() * templates["anonymous"].length)
     ];
-  const text = template.value.replace("$reciever", recieverHandle);
-  const entities = template.enitities;
-  entities[0].index.end = entities[0].index.start + recieverHandle.length;
-  entities[0].value = recieverDid;
-  return {
-    text,
-    entities,
-  };
+  return template.value.replace("$reciever", `@${recieverHandle}`);
 }
 
 function generateNormalPost(
   recieverHandle: string,
-  recieverDid: string,
-  senderHandle: string,
-  senderDid: string
+  senderHandle: string
 ) {
   const template =
     templates["normal"][Math.floor(Math.random() * templates["normal"].length)];
   const text = template.value
-    .replace("$reciever", recieverHandle)
-    .replace("$sender", senderHandle);
-  const entities = template.enitities;
-  entities[0].index.end = entities[0].index.start + recieverHandle.length;
-  entities[0].value = recieverDid;
-  entities[1].index.start += recieverHandle.length;
-  entities[1].index.end = entities[1].index.start + senderHandle.length;
-  entities[1].value = senderDid;
-  return {
-    text,
-    entities,
-  };
+    .replace("$reciever", `@${recieverHandle}`)
+    .replace("$sender", `@${senderHandle}`);
+  return text;
 }
 
 function generatePost(
   recieverHandle: string,
-  recieverDid: string,
   senderHandle: string | undefined,
-  senderDid: string | undefined
 ) {
-  if (senderHandle && senderDid) {
+  if (senderHandle) {
     return generateNormalPost(
       recieverHandle,
-      recieverDid,
-      senderHandle,
-      senderDid
+      senderHandle
     );
   }
-  return generateAnonPost(recieverHandle, recieverDid);
+  return generateAnonPost(recieverHandle);
 }
 
 export async function POST(request: Request) {
   const { identifier, anonymous, senderHandle, senderDid } =
     await request.json();
-  const { accessJwt, did } = await Login(
-    process.env.IDENTIFIER,
-    process.env.PASSWORD
-  );
-  const profile = await getProfile(identifier, accessJwt);
-  if (!profile) {
+    const agent = new BskyAgent({
+      service: 'https://bsky.social',persistSession: (evt: AtpSessionEvent, sess?: AtpSessionData) => {
+        // store the session-data for reuse
+        console.log(evt, sess);
+      },
+    });
+  await agent.login({ identifier: process.env.IDENTIFIER!, password: process.env.PASSWORD! }, )
+  console.log("logged in ");
+  const response = await agent.getProfile({
+    actor: identifier
+  });
+  console.log(response);
+  if (!response.success) {
     return NextResponse.json(
       {
         error: "Profile Not Found",
@@ -77,9 +60,9 @@ export async function POST(request: Request) {
       }
     );
   }
-  const { handle: recieverHandle, did: recieverDid } =
-    profile as ProfileGetResponse;
-  const [sHandle, sDid] = anonymous
+  const profile = response.data;
+  const { handle: recieverHandle, did: recieverDid } = profile;
+  const [sHandle] = anonymous
     ? [undefined, undefined]
     : [senderHandle, senderDid];
   if (recieverDid === senderDid) {
@@ -92,13 +75,21 @@ export async function POST(request: Request) {
       }
     );
   }
-  const { text, entities } = generatePost(
+  const text = generatePost(
     recieverHandle,
-    recieverDid,
     sHandle,
-    sDid
   );
-  Post(text, entities, accessJwt, did);
+  const rt = new RichText({
+    text: text,
+  })
+  await rt.detectFacets(agent) 
+  agent.post({
+    $type: 'app.bsky.feed.post',
+    text: rt.text,
+    facets: rt.facets,
+    createdAt: new Date().toISOString(),
+  })
+  // Post(text, entities, accessJwt, did);
   return NextResponse.json({
     success: "Hugged",
   });
