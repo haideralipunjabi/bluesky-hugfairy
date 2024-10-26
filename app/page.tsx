@@ -25,13 +25,7 @@ export const metadata = {
     type: "website",
   },
 };
-
 export default async function Page() {
-  const cookieStore = cookies();
-  const access_token = cookieStore.get("accessJwt")?.value;
-  const { handle, did } = access_token
-    ? await getCurrentSession(access_token)
-    : { handle: undefined, did: undefined };
   return (
     <div className="mx-auto flex min-h-screen w-max flex-col justify-start gap-y-1 pt-10 text-foreground-primary sm:gap-y-2 md:gap-y-3 lg:gap-y-4">
       <div className="my-4 text-center">
@@ -41,8 +35,12 @@ export default async function Page() {
         <h2 className="text-l my-2 md:text-xl lg:text-2xl">
           Send hugs to anyone on BlueSky
         </h2>
+        <h2 className="text-l my-2 md:text-xl lg:text-2xl">
+          Under going maintainence
+        </h2>
       </div>
-      {handle ? <HugsForm handle={handle} did={did} /> : <LoginForm />}
+      {/* <HugsForm /> */}
+
     </div>
   );
 }

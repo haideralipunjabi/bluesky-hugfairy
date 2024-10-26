@@ -1,0 +1,20 @@
+{
+    "client_id": "https://hugfairy.haider.id/client-metadata.json",
+    "client_name": "Hugfairy",
+    "client_uri": "https://hugfairy.haider.id",
+    "logo_uri": "https://hugfairy.haider.id/logo.png",
+    "redirect_uris": [
+        "https://hugfairy.haider.id/callback"
+    ],
+    "scope": "atproto transition:generic",
+    "grant_types": [
+        "authorization_code",
+        "refresh_token"
+    ],
+    "response_types": [
+        "code"
+    ],
+    "token_endpoint_auth_method": "none",
+    "application_type": "web",
+    "dpop_bound_access_tokens": true
+}
