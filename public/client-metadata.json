@@ -4,7 +4,7 @@
     "client_uri": "https://hugfairy.haider.id",
     "logo_uri": "https://hugfairy.haider.id/logo.png",
     "redirect_uris": [
-        "https://hugfairy.haider.id/"
+        "https://hugfairy1.haider.id/"
     ],
     "scope": "atproto transition:generic",
     "grant_types": [
