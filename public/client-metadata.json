@@ -4,6 +4,7 @@
     "client_uri": "https://hugfairy.haider.id",
     "logo_uri": "https://hugfairy.haider.id/logo.png",
     "redirect_uris": [
+        "https://hugfairy.haider.id/",
         "http://127.0.0.1:3000/"
     ],
     "scope": "atproto transition:generic",
