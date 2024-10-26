@@ -4,7 +4,7 @@
     "client_uri": "https://hugfairy.haider.id",
     "logo_uri": "https://hugfairy.haider.id/logo.png",
     "redirect_uris": [
-        "https://hugfairy1.haider.id/"
+        "http://127.0.0.1:3000/"
     ],
     "scope": "atproto transition:generic",
     "grant_types": [
@@ -15,6 +15,6 @@
         "code"
     ],
     "token_endpoint_auth_method": "none",
-    "application_type": "web",
+    "application_type": "native",
     "dpop_bound_access_tokens": true
 }
