@@ -1,8 +1,3 @@
-import HugsForm from "../components/hugsform";
-import LoginForm from "../components/loginform";
-import { cookies } from "next/headers";
-import getCurrentSession from "../lib/getCurrentSession";
-
 export const metadata = {
   title: "Bluesky Hugfairy",
   description:

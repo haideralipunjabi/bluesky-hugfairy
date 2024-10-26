@@ -1,16 +1,27 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorAlert, SuccessAlert } from "./alert";
+import getBlueskySession from "../lib/getBlueskySession";
+import { Agent } from '@atproto/api'
 
-export default function HugsForm({
-  handle,
-  did,
-}: {
-  handle: string;
-  did: string;
-}) {
+export default function HugsForm() {
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
+  const [agent, setAgent] = useState<Agent>();
+  if (!agent) {
+    getBlueskySession().then(session => {
+      console.log(session);
+      if (session) {
+        setAgent(new Agent(session))
+      }
+    });
+  }
+
+  useEffect(() => {
+    agent?.getProfile({
+      actor: agent?.did ?? "",
+    });
+  }, [agent])
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
@@ -47,6 +58,13 @@ export default function HugsForm({
     document.cookie = "handle=; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     window.location.reload();
   };
+  if (agent) {
+    return (
+      <>
+        {agent.did}
+      </>
+    )
+  }
   return (
     <form
       onSubmit={handleSubmit}
@@ -74,8 +92,8 @@ export default function HugsForm({
           Hug Anonymously
         </label>
       </div>
-      <input type="hidden" name="senderHandle" value={handle} />
-      <input type="hidden" name="senderDid" value={did} />
+      {/* <input type="hidden" name="senderHandle" value={handle} /> */}
+      {/* <input type="hidden" name="senderDid" value={did} /> */}
 
       {error && <ErrorAlert>{error}</ErrorAlert>}
       {success && <SuccessAlert>{success}</SuccessAlert>}
@@ -85,12 +103,19 @@ export default function HugsForm({
         value="Hug"
       />
       <h3 className="md:text-l text-sm lg:text-xl">
-        Logged in as {handle}(
+        Logged in as (
         <a className="text-sm underline" onClick={handleLogout}>
           Logout
         </a>
         )
       </h3>
+
+      {/* <button onClick={() => {
+        client.signIn("haider.bsky.social")
+      }}>
+        Sign In
+      </button> */}
     </form>
+
   );
 }
