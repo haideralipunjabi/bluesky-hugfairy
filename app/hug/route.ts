@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import templates from "../../data/templates.json";
-import { AtpSessionData, AtpSessionEvent, BskyAgent, RichText } from "@atproto/api";
+import { Agent, CredentialSession, RichText } from "@atproto/api";
+import { getLoggedInUser } from "lib/getBackendClient";
+import { cookies } from "next/headers";
 
 function generateAnonPost(recieverHandle: string) {
   const template =
@@ -10,10 +12,7 @@ function generateAnonPost(recieverHandle: string) {
   return template.value.replace("$reciever", `@${recieverHandle}`);
 }
 
-function generateNormalPost(
-  recieverHandle: string,
-  senderHandle: string
-) {
+function generateNormalPost(recieverHandle: string, senderHandle: string) {
   const template =
     templates["normal"][Math.floor(Math.random() * templates["normal"].length)];
   const text = template.value
@@ -27,29 +26,38 @@ function generatePost(
   senderHandle: string | undefined,
 ) {
   if (senderHandle) {
-    return generateNormalPost(
-      recieverHandle,
-      senderHandle
-    );
+    return generateNormalPost(recieverHandle, senderHandle);
   }
   return generateAnonPost(recieverHandle);
 }
 
 export async function POST(request: Request) {
-  const { identifier, anonymous, senderHandle, senderDid } =
-    await request.json();
-    const agent = new BskyAgent({
-      service: 'https://bsky.social',persistSession: (evt: AtpSessionEvent, sess?: AtpSessionData) => {
-        // store the session-data for reuse
-        console.log(evt, sess);
+  const { identifier, anonymous } = await request.json();
+  const cookieStore = await cookies();
+  const senderProfile = await getLoggedInUser(cookieStore);
+  if (!senderProfile) {
+    return NextResponse.json(
+      {
+        error: "You are not logged in!",
       },
-    });
-  await agent.login({ identifier: process.env.IDENTIFIER!, password: process.env.PASSWORD! }, )
-  console.log("logged in ");
-  const response = await agent.getProfile({
-    actor: identifier
+      {
+        status: 404,
+      },
+    );
+  }
+  const { handle: senderHandle, did: senderDid } = senderProfile;
+  const session = new CredentialSession(new URL("https://bsky.social"));
+  await session.login({
+    identifier: process.env.IDENTIFIER!,
+    password: process.env.PASSWORD!,
   });
-  console.log(response);
+  const agent = new Agent(session);
+  const response = await agent
+    .getProfile({
+      actor: identifier,
+    })
+    .catch((r) => r);
+
   if (!response.success) {
     return NextResponse.json(
       {
@@ -57,14 +65,11 @@ export async function POST(request: Request) {
       },
       {
         status: 404,
-      }
+      },
     );
   }
-  const profile = response.data;
-  const { handle: recieverHandle, did: recieverDid } = profile;
-  const [sHandle] = anonymous
-    ? [undefined, undefined]
-    : [senderHandle, senderDid];
+  const { handle: recieverHandle, did: recieverDid } = response.data;
+
   if (recieverDid === senderDid) {
     return NextResponse.json(
       {
@@ -72,24 +77,23 @@ export async function POST(request: Request) {
       },
       {
         status: 400,
-      }
+      },
     );
   }
   const text = generatePost(
     recieverHandle,
-    sHandle,
+    anonymous ? undefined : senderHandle,
   );
   const rt = new RichText({
     text: text,
-  })
-  await rt.detectFacets(agent) 
+  });
+  await rt.detectFacets(agent);
   agent.post({
-    $type: 'app.bsky.feed.post',
+    $type: "app.bsky.feed.post",
     text: rt.text,
     facets: rt.facets,
     createdAt: new Date().toISOString(),
-  })
-  // Post(text, entities, accessJwt, did);
+  });
   return NextResponse.json({
     success: "Hugged",
   });

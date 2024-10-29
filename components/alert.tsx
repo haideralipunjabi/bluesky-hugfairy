@@ -20,7 +20,7 @@ export default function Alert({
     <div
       className={classNames(
         "md:text-l fixed bottom-20 left-10 right-10 mx-auto w-fit py-2 px-6 text-center text-sm outline lg:text-xl",
-        configs[type]
+        configs[type],
       )}
     >
       {children}

@@ -1,5 +1,6 @@
 import Footer from "../components/footer";
 import "./globals.css";
+import Navbar from "components/navbar";
 
 export default function RootLayout({
   children,
@@ -10,32 +11,24 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link
+          rel="icon"
+          type="image/png"
+          href="/favicons/favicon-96x96.png"
+          sizes="96x96"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg" />
+        <link rel="shortcut icon" href="/favicons/favicon.ico" />
+        <link
           rel="apple-touch-icon"
           sizes="180x180"
           href="/favicons/apple-touch-icon.png"
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicons/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicons/favicon-16x16.png"
-        />
-        <link
-          rel="mask-icon"
-          href="/favicons/safari-pinned-tab.svg"
-          color="#1d4ed8"
-        />
-        <meta name="msapplication-TileColor" content="#1d4ed8" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="apple-mobile-web-app-title" content="Hugfairy" />
+        <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
       <body>
-        <main className="min-h-screen bg-background-secondary">{children}</main>
+        <Navbar />
+        <main className="min-h-screen bg-background-primary">{children}</main>
         <Footer />
       </body>
     </html>

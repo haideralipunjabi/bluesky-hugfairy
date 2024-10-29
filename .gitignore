@@ -38,3 +38,5 @@ node_modules
 .vscode 
 .next
 .env
+.privat-jwk.json
+certificates
