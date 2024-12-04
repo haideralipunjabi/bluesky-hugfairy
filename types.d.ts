@@ -38,3 +38,10 @@ type MentionEnitity = {
     },
     "value": string
 }
+
+type Subscriber = {
+    "name": string,
+    "handle": string,
+    "avatar": string,
+    "description": string
+}

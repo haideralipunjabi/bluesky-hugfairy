@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "lib/getBlueskySession.js"  ],
+, "lib/getBlueskySession.js", "scripts/getFeaturedProfiles.js"  ],
   "exclude": [
     "node_modules"
   ]

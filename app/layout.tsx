@@ -27,7 +27,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Hugfairy" />
         <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
-      <body>
+      <body className=" bg-background-primary">
         <GCScript siteUrl={"https://hugfairy.goatcounter.com/count"} />
         <Navbar />
         <main className="min-h-screen bg-background-primary">{children}</main>

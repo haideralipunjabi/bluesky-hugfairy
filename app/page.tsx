@@ -1,5 +1,6 @@
 import { ErrorAlert } from "components/alert";
 import BuyMeACoffee from "components/buymeacoffee";
+import FeaturedProfiles from "components/featuredProfiles";
 import HugsForm from "components/hugsform";
 import LoginButton from "components/loginbutton";
 import { BASE_URL, getLoggedInUser } from "lib/getBackendClient";
@@ -52,6 +53,7 @@ export default async function Page({
         </h2>
         <BuyMeACoffee />
       </div>
+      <FeaturedProfiles />
     </div>
   );
 }

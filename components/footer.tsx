@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="h-100 md:text-l fixed bottom-0 mb-2 w-screen bg-background-secondary px-6 text-center text-sm text-foreground-primary lg:text-xl">
+    <footer className="h-100 md:text-l w-100 bottom-0 mb-0 mt-16 bg-background-secondary px-6 text-center text-sm text-foreground-primary lg:text-xl">
       Made by{" "}
       <a
         href="https://haideralipunjabi.com"

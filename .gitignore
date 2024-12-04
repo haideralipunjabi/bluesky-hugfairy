@@ -40,3 +40,4 @@ node_modules
 .env
 .privat-jwk.json
 certificates
+data/subscriberData.json
