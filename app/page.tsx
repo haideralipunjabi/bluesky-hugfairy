@@ -1,4 +1,5 @@
 import { ErrorAlert } from "components/alert";
+import BuyMeACoffee from "components/buymeacoffee";
 import HugsForm from "components/hugsform";
 import LoginButton from "components/loginbutton";
 import { BASE_URL, getLoggedInUser } from "lib/getBackendClient";
@@ -45,6 +46,12 @@ export default async function Page({
       </div>
       {error && <ErrorAlert>{error}</ErrorAlert>}
       {isLoggedIn() ? <HugsForm name={loggedInUser?.name} /> : <LoginButton />}
+      <div className="mx-auto">
+        <h2 className="text-l my-2 md:text-xl lg:text-2xl">
+          Help support the bot!
+        </h2>
+        <BuyMeACoffee />
+      </div>
     </div>
   );
 }
