@@ -2332,6 +2332,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
+next-goatcounter@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/next-goatcounter/-/next-goatcounter-1.0.6.tgz#fb172f9c0b71e7b3247727cb09495c4880f9dff7"
+  integrity sha512-NebKf16BESz92RIV4X4yGrzvOWZi9l7NWi6FPDXjekmI9tjF/b0z53D5tKgwhmu5npP7SKIdliqgGDeQsKrEbA==
+
 next@^15.0.1:
   version "15.0.1"
   resolved "https://registry.yarnpkg.com/next/-/next-15.0.1.tgz#a0e8eda35d803cb7f8092b2a2eb9d072e22bf21d"

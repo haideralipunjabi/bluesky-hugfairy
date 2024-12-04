@@ -1,6 +1,7 @@
 import Footer from "../components/footer";
 import "./globals.css";
 import Navbar from "components/navbar";
+import { GCScript } from "next-goatcounter";
 
 export default function RootLayout({
   children,
@@ -27,6 +28,7 @@ export default function RootLayout({
         <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
       <body>
+        <GCScript siteUrl={"https://hugfairy.goatcounter.com/count"} />
         <Navbar />
         <main className="min-h-screen bg-background-primary">{children}</main>
         <Footer />
