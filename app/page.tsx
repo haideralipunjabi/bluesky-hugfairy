@@ -1,6 +1,7 @@
 import { ErrorAlert } from "components/alert";
 import BuyMeACoffee from "components/buymeacoffee";
 import FeaturedProfiles from "components/featuredProfiles";
+import FollowOnBlueSky from "components/followOnBluesky";
 import HugsForm from "components/hugsform";
 import LoginButton from "components/loginbutton";
 import { BASE_URL, getLoggedInUser } from "lib/getBackendClient";
@@ -13,8 +14,8 @@ export const metadata = {
   metadataBase: new URL(BASE_URL),
   openGraph: {
     title: "Hugfairy",
-    description: "The React Framework for the Web",
-    url: "Homepage for Hugfairy bot. A bot to send hugs on BlueSky",
+    description: "Homepage for Hugfairy bot. A bot to send hugs on BlueSky",
+    url: new URL(BASE_URL),
     siteName: "Hugfairy",
     images: [
       {
@@ -51,7 +52,10 @@ export default async function Page({
         <h2 className="text-l my-2 md:text-xl lg:text-2xl">
           Help support the bot!
         </h2>
-        <BuyMeACoffee />
+        <div className="flex flex-col items-center gap-y-2">
+          <BuyMeACoffee />
+          <FollowOnBlueSky />
+        </div>
       </div>
       <FeaturedProfiles />
     </div>

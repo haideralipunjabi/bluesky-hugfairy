@@ -19,7 +19,8 @@ module.exports = {
           primary: "#70CAD1",
           secondary: "#B08EA2",
         },
-        link: "#03a9f4"
+        link: "#03a9f4",
+        bluesky: "#0c7aff"
       },
     },
   },
