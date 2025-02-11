@@ -3,6 +3,8 @@ import templates from "../../data/templates.json";
 import { Agent, CredentialSession, RichText } from "@atproto/api";
 import { getLoggedInUser } from "lib/getBackendClient";
 import { cookies } from "next/headers";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../../database.types";
 
 function generateAnonPost(recieverHandle: string) {
   const template =
@@ -31,10 +33,45 @@ function generatePost(
   return generateAnonPost(recieverHandle);
 }
 
+async function checkDailyHugLimit(
+  supabase: SupabaseClient<Database>,
+  senderDid: string,
+) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Start of today
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1); // Start of tomorrow
+  const { count, error } = await supabase
+    .from("hugs")
+    .select("*", { count: "exact" }) // Important for accurate counts
+    .eq("sender", senderDid)
+    .gte("created_at", today.toISOString()) // Greater than or equal to start of today
+    .lt("created_at", tomorrow.toISOString()); // Less than start of tomorrow
+
+  if (error) {
+    throw error;
+  }
+  return count || 0 <= 3;
+}
+
 export async function POST(request: Request) {
   const { identifier, anonymous } = await request.json();
   const cookieStore = await cookies();
   const senderProfile = await getLoggedInUser(cookieStore);
+  const supabaseURL = process.env.SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_ANON_KEY;
+  if (supabaseURL == null || supabaseKey == null) {
+    return NextResponse.json(
+      {
+        error: "Server Error",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
+  const supabase = createClient<Database>(supabaseURL, supabaseKey);
+
   if (!senderProfile) {
     return NextResponse.json(
       {
@@ -46,6 +83,16 @@ export async function POST(request: Request) {
     );
   }
   const { handle: senderHandle, did: senderDid } = senderProfile;
+  if (!checkDailyHugLimit(supabase, senderDid!)) {
+    return NextResponse.json(
+      {
+        error: "You can't send more hugs today!",
+      },
+      {
+        status: 500,
+      },
+    );
+  }
   const session = new CredentialSession(new URL("https://bsky.social"));
   await session.login({
     identifier: process.env.IDENTIFIER!,
@@ -89,11 +136,18 @@ export async function POST(request: Request) {
     text: text,
   });
   await rt.detectFacets(agent);
+  const created_at = new Date().toISOString();
   agent.post({
     $type: "app.bsky.feed.post",
     text: rt.text,
     facets: rt.facets,
-    createdAt: new Date().toISOString(),
+    createdAt: created_at,
+  });
+  await supabase.from("hugs").insert({
+    anonymous: anonymous,
+    created_at: created_at,
+    sender: senderDid!,
+    recipient: recieverDid!,
   });
   return NextResponse.json({
     success: "Hugged",
