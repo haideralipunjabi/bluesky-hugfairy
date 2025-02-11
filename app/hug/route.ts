@@ -54,6 +54,13 @@ async function checkDailyHugLimit(
   return (count || 0) <= 3;
 }
 
+async function verifyFollowing(agent: Agent, senderDid: string) {
+  const senderProfile = await agent.getProfile({
+    actor: senderDid,
+  });
+  return senderProfile.data.viewer?.followedBy != null;
+}
+
 export async function POST(request: Request) {
   const { identifier, anonymous } = await request.json();
   const cookieStore = await cookies();
@@ -83,7 +90,23 @@ export async function POST(request: Request) {
     );
   }
   const { handle: senderHandle, did: senderDid } = senderProfile;
-  if (! await checkDailyHugLimit(supabase, senderDid!)) {
+  const session = new CredentialSession(new URL("https://bsky.social"));
+  await session.login({
+    identifier: process.env.IDENTIFIER!,
+    password: process.env.PASSWORD!,
+  });
+  const agent = new Agent(session);
+  if (!(await verifyFollowing(agent, senderDid!))) {
+    return NextResponse.json(
+      {
+        error: "Please follow us first!",
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+  if (!(await checkDailyHugLimit(supabase, senderDid!))) {
     return NextResponse.json(
       {
         error: "You can't send more hugs today!",
@@ -93,12 +116,6 @@ export async function POST(request: Request) {
       },
     );
   }
-  const session = new CredentialSession(new URL("https://bsky.social"));
-  await session.login({
-    identifier: process.env.IDENTIFIER!,
-    password: process.env.PASSWORD!,
-  });
-  const agent = new Agent(session);
   const response = await agent
     .getProfile({
       // eslint-disable-next-line no-control-regex
