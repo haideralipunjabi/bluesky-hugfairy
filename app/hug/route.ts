@@ -119,7 +119,7 @@ export async function POST(request: Request) {
   const response = await agent
     .getProfile({
       // eslint-disable-next-line no-control-regex
-      actor: identifier.replace(/[^\x00-\x7F]/g, ""),
+      actor: identifier.replace(/[^\x00-\x7F]/g, "").replace("@", ""),
     })
     .catch((r) => r);
 
