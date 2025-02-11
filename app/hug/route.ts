@@ -51,7 +51,7 @@ async function checkDailyHugLimit(
   if (error) {
     throw error;
   }
-  return count || 0 <= 3;
+  return (count || 0) <= 3;
 }
 
 export async function POST(request: Request) {
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     );
   }
   const { handle: senderHandle, did: senderDid } = senderProfile;
-  if (!checkDailyHugLimit(supabase, senderDid!)) {
+  if (! await checkDailyHugLimit(supabase, senderDid!)) {
     return NextResponse.json(
       {
         error: "You can't send more hugs today!",
