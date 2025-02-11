@@ -51,7 +51,7 @@ async function checkDailyHugLimit(
   if (error) {
     throw error;
   }
-  return (count || 0) <= 3;
+  return (count || 0) < 3;
 }
 
 async function verifyFollowing(agent: Agent, senderDid: string) {
