@@ -2,6 +2,7 @@ import { ErrorAlert } from "components/alert";
 import BuyMeACoffee from "components/buymeacoffee";
 import FeaturedProfiles from "components/featuredProfiles";
 import FollowOnBlueSky from "components/followOnBluesky";
+import HugsCount from "components/hugscount";
 import HugsForm from "components/hugsform";
 import LoginButton from "components/loginbutton";
 import { BASE_URL, getLoggedInUser } from "lib/getBackendClient";
@@ -48,6 +49,7 @@ export default async function Page({
       </div>
       {error && <ErrorAlert>{error}</ErrorAlert>}
       {isLoggedIn() ? <HugsForm name={loggedInUser?.name} /> : <LoginButton />}
+      {isLoggedIn() ? <HugsCount userDid={loggedInUser!.did!} /> : <></>}
       <div className="mx-auto">
         <h2 className="text-l my-2 md:text-xl lg:text-2xl">
           Help support the bot!

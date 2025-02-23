@@ -14,6 +14,7 @@ export type Database = {
           anonymous: boolean
           created_at: string
           id: number
+          premium: boolean
           recipient: string
           sender: string
         }
@@ -21,6 +22,7 @@ export type Database = {
           anonymous: boolean
           created_at?: string
           id?: number
+          premium?: boolean
           recipient: string
           sender: string
         }
@@ -28,8 +30,39 @@ export type Database = {
           anonymous?: boolean
           created_at?: string
           id?: number
+          premium?: boolean
           recipient?: string
           sender?: string
+        }
+        Relationships: []
+      }
+      sales: {
+        Row: {
+          bsky_did: string | null
+          email: string | null
+          id: number
+          order_number: string | null
+          product_id: string | null
+          sale_id: string | null
+          sale_timestamp: string | null
+        }
+        Insert: {
+          bsky_did?: string | null
+          email?: string | null
+          id?: number
+          order_number?: string | null
+          product_id?: string | null
+          sale_id?: string | null
+          sale_timestamp?: string | null
+        }
+        Update: {
+          bsky_did?: string | null
+          email?: string | null
+          id?: number
+          order_number?: string | null
+          product_id?: string | null
+          sale_id?: string | null
+          sale_timestamp?: string | null
         }
         Relationships: []
       }

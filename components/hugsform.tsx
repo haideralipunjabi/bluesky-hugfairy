@@ -67,9 +67,11 @@ export default function HugsForm({ name }: { name?: string }) {
           value="Hug"
         />
         {name && (
-          <span>
-            Logged in as {name}.(<a href="/logout">Logout?</a>)
-          </span>
+          <>
+            <span>
+              Logged in as {name}.(<a href="/logout">Logout?</a>)
+            </span>
+          </>
         )}
       </form>
     </>
