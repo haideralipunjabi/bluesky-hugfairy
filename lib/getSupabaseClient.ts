@@ -37,6 +37,7 @@ export class SupabaseClientHelper {
       .from("hugs")
       .select("*", { count: "exact" }) // Important for accurate counts
       .eq("sender", senderDid)
+      .eq("premium", false)
       .gte("created_at", today.toISOString()) // Greater than or equal to start of today
       .lt("created_at", tomorrow.toISOString()); // Less than start of tomorrow
 
