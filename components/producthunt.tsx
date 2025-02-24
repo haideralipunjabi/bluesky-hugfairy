@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 const ProductHunt = () => {
   return (
     <Link href="https://www.producthunt.com/posts/hugfairy" target="_blank">
