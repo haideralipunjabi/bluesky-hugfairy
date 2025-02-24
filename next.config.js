@@ -5,7 +5,11 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.bsky.app"
+        hostname: "cdn.bsky.app",
+      },
+      {
+        protocol: "https",
+        hostname: "api.producthunt.com",
       }
     ]
   }

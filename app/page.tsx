@@ -5,6 +5,7 @@ import FollowOnBlueSky from "components/followOnBluesky";
 import HugsCount from "components/hugscount";
 import HugsForm from "components/hugsform";
 import LoginButton from "components/loginbutton";
+import ProductHunt from "components/producthunt";
 import { BASE_URL, getLoggedInUser } from "lib/getBackendClient";
 import { cookies } from "next/headers";
 
@@ -51,10 +52,11 @@ export default async function Page({
       {isLoggedIn() ? <HugsForm name={loggedInUser?.name} /> : <LoginButton />}
       {isLoggedIn() ? <HugsCount userDid={loggedInUser!.did!} /> : <></>}
       <div className="mx-auto">
-        <h2 className="text-l my-2 md:text-xl lg:text-2xl">
+        <h2 className="text-l my-2 text-center md:text-xl lg:text-2xl">
           Help support the bot!
         </h2>
         <div className="flex flex-col items-center gap-y-2">
+          <ProductHunt />
           <BuyMeACoffee />
           <FollowOnBlueSky />
         </div>
