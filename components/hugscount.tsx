@@ -11,7 +11,7 @@ export default async function HugsCount({ userDid }: { userDid: string }) {
         You have {await supabaseHelper.getRemainingPremiumHugs(userDid)} paid
         hugs.{" "}
         <a
-          href="https://haideralipunjabi.gumroad.com/l/epupp"
+          href="https://haideralipunjabi.gumroad.com/l/yyfivx"
           target="_blank"
           rel="noopener noreferrer"
         >

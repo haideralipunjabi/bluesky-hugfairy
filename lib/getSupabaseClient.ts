@@ -59,11 +59,12 @@ export class SupabaseClientHelper {
     const { count: purchaseCount, error: error2 } = await this.client
       .from("sales")
       .select("*", { count: "exact" }) // Important for accurate counts
-      .eq("bsky_did", senderDid);
+      .eq("bsky_did", senderDid)
+      .eq("product_id", "OCD39Erdiiv1G3BlWMUyqA==")
     if (error2) {
       throw error2;
     }
-    return (purchaseCount || 0) * 5 - (sentCount || 0);
+    return (purchaseCount || 0) * 30 - (sentCount || 0);
   }
 
   async logHug(
