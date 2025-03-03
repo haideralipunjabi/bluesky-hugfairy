@@ -72,7 +72,7 @@ export class SupabaseClientHelper {
       }
       totalPurchaseCount += count * (purchaseCount || 0);
     }
-    return (totalPurchaseCount * 30) - (sentCount || 0);
+    return (totalPurchaseCount) - (sentCount || 0);
   }
 
   async logHug(
