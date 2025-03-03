@@ -1,6 +1,10 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "database.types";
 
+const product_id_map = {
+  "XCgph9rio2syVsV6qlu5wA==": 5,
+  "OCD39Erdiiv1G3BlWMUyqA==": 30
+}
 export class SupabaseClientHelper {
   client!: SupabaseClient<Database>;
 
@@ -56,15 +60,19 @@ export class SupabaseClientHelper {
     if (error1) {
       throw error1;
     }
-    const { count: purchaseCount, error: error2 } = await this.client
-      .from("sales")
-      .select("*", { count: "exact" }) // Important for accurate counts
-      .eq("bsky_did", senderDid)
-      .eq("product_id", "OCD39Erdiiv1G3BlWMUyqA==")
-    if (error2) {
-      throw error2;
+    let totalPurchaseCount = 0;
+    for(const [product_id, count] of Object.entries(product_id_map)){
+      const { count: purchaseCount, error: error2 } = await this.client
+        .from("sales")
+        .select("*", { count: "exact" }) // Important for accurate counts
+        .eq("bsky_did", senderDid)
+        .eq("product_id", product_id)
+      if (error2) {
+        throw error2;
+      }
+      totalPurchaseCount += count * (purchaseCount || 0);
     }
-    return (purchaseCount || 0) * 30 - (sentCount || 0);
+    return (totalPurchaseCount * 30) - (sentCount || 0);
   }
 
   async logHug(
