@@ -3,8 +3,8 @@ import { Database } from "database.types";
 
 const product_id_map = {
   "XCgph9rio2syVsV6qlu5wA==": 5,
-  "OCD39Erdiiv1G3BlWMUyqA==": 30
-}
+  "OCD39Erdiiv1G3BlWMUyqA==": 30,
+};
 export class SupabaseClientHelper {
   client!: SupabaseClient<Database>;
 
@@ -48,7 +48,8 @@ export class SupabaseClientHelper {
     if (error) {
       throw error;
     }
-    return 3 - (count || 0);
+    const freeHugs = 3 - (count || 0);
+    return freeHugs >= 0 ? freeHugs : 0;
   }
 
   async getRemainingPremiumHugs(senderDid: string) {
@@ -61,18 +62,19 @@ export class SupabaseClientHelper {
       throw error1;
     }
     let totalPurchaseCount = 0;
-    for(const [product_id, count] of Object.entries(product_id_map)){
+    for (const [product_id, count] of Object.entries(product_id_map)) {
       const { count: purchaseCount, error: error2 } = await this.client
         .from("sales")
         .select("*", { count: "exact" }) // Important for accurate counts
         .eq("bsky_did", senderDid)
-        .eq("product_id", product_id)
+        .eq("product_id", product_id);
       if (error2) {
         throw error2;
       }
       totalPurchaseCount += count * (purchaseCount || 0);
     }
-    return (totalPurchaseCount) - (sentCount || 0);
+    const paidHugs = totalPurchaseCount - (sentCount || 0);
+    return paidHugs >= 0 ? paidHugs : 0;
   }
 
   async logHug(
